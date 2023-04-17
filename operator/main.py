@@ -10,6 +10,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(
     )
 ))
 channel = connection.channel()
+channel.queue_declare(queue='default')
 
 if __name__ == '__main__':
     while True:

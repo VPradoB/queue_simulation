@@ -14,6 +14,7 @@ def main():
         )
     ))
     channel = connection.channel()
+    channel.queue_declare(queue='default')
 
     def callback(ch, method, properties, body):
         print(" [x] Received %r" % body)
