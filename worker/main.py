@@ -6,9 +6,12 @@ import pika
 
 def main():
     connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='localhost',
-        port=5672,
-        credentials=pika.PlainCredentials('user', 'password')
+        host=os.getenv('RABBITMQ_HOST'),
+        port=int(os.getenv('RABBITMQ_PORT')),
+        credentials=pika.PlainCredentials(
+            os.getenv('RABBITMQ_USER'),
+            os.getenv('RABBITMQ_PASSWORD')
+        )
     ))
     channel = connection.channel()
 

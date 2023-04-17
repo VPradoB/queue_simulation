@@ -11,6 +11,29 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
     networks:
       - queue_service_network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  operator:
+    build:
+      context: operator
+      dockerfile: dockerfile
+    container_name: operator
+    env_file:
+      - operator/.env
+    networks:
+      - queue_service_network
+  worker:
+    build:
+      context: worker
+      dockerfile: dockerfile
+    container_name: worker
+    env_file:
+      - worker/.env
+    networks:
+      - queue_service_network
 
 networks:
   queue_service_network:
